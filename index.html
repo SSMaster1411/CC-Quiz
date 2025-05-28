@@ -1,0 +1,302 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coca-Cola Intangible Assets Quiz</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap');
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(135deg, #cc0000, #ffffff);
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+      color: #333;
+      position: relative;
+    }
+
+    .corner-image {
+      position: absolute;
+      width: 120px;
+      height: auto;
+      top: 25px;
+      z-index: 10;
+    }
+
+    .top-left {
+      left: -50px;
+    }
+
+    .top-right {
+      right: -50px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      font-family: 'Pacifico', cursive;
+      font-size: 3em;
+      text-shadow: 3px 3px 6px #990000;
+      margin-bottom: 35px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .question {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 15px;
+      border: 3px solid #cc0000;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .question p {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #cc0000;
+    }
+
+    .options label {
+      display: block;
+      margin: 10px 0;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    input[type="radio"] {
+      margin-right: 8px;
+    }
+
+    button {
+      display: block;
+      margin: 30px auto;
+      padding: 14px 35px;
+      background-color: #cc0000;
+      color: #fff;
+      border: 3px solid #fff;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    button:hover {
+      background-color: #b30000;
+      transform: scale(1.05);
+    }
+
+    .feedback {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .incorrect {
+      color: red;
+    }
+
+    #score {
+      font-size: 1.6em;
+      text-align: center;
+      margin-top: 30px;
+      color: #fff;
+      text-shadow: 1px 1px 4px #990000;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/c28e8e126562481.612fc92619eea.jpg" alt="Coca-Cola Logo" class="corner-image top-left">
+  <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/c28e8e126562481.612fc92619eea.jpg" alt="Coca-Cola Logo" class="corner-image top-right">
+
+  <h1>Coca-Cola Intangible Assets Quiz</h1>
+  <form id="quizForm"></form>
+  <button type="button" onclick="submitQuiz()" id="submitBtn">Submit Quiz</button>
+
+  <div id="score"></div>
+
+  <script>
+    const allQuestions = [
+      {
+        id: 'q1',
+        question: "Which of the following is Coca-Cola’s most valuable intangible asset?",
+        options: {
+          A: "Patents for secret formulas",
+          B: "Trademarks and brand names",
+          C: "Copyrights on advertising content",
+          D: "Franchise rights for vending machines"
+        },
+        answer: 'B',
+        type: 'mcq'
+      },
+      {
+        id: 'q2',
+        question: "Where is this asset reported in the financial statements?",
+        options: {
+          A: "As a tangible asset under PPE",
+          B: "As part of goodwill or separately as an intangible asset",
+          C: "In the revenue section",
+          D: "It’s not reported in financial statements at all"
+        },
+        answer: 'B',
+        type: 'mcq'
+      },
+      {
+        id: 'q3',
+        question: "How is Coca-Cola's trade secret (formula) treated in financial reporting?",
+        options: {
+          A: "Regularly revalued to market value",
+          B: "Amortized like a fixed asset",
+          C: "Not listed unless acquired in a business combination",
+          D: "Must be disclosed in detail"
+        },
+        answer: 'C',
+        type: 'mcq'
+      },
+      {
+        id: 'q4',
+        question: "What happens when Coca-Cola acquires a smaller company?",
+        options: {
+          A: "Increase in tangible assets only",
+          B: "Increase in goodwill and possibly other intangibles",
+          C: "Decrease in total assets",
+          D: "Immediate expense recorded under marketing"
+        },
+        answer: 'B',
+        type: 'mcq'
+      },
+      {
+        id: 'q5',
+        question: "How does Coca-Cola legally protect its brand?",
+        options: {
+          A: "Through annual insurance contracts",
+          B: "Through patents",
+          C: "Through trademarks and copyright protections",
+          D: "Through secret licensing agreements"
+        },
+        answer: 'C',
+        type: 'mcq'
+      },
+      {
+        id: 'q6',
+        question: "The Coca-Cola Company capitalizes internally generated brand value as an intangible asset.",
+        options: {
+          True: "True",
+          False: "False"
+        },
+        answer: 'False',
+        type: 'tf'
+      },
+      {
+        id: 'q7',
+        question: "Selling trademark rights would generate revenue under operating income.",
+        options: {
+          True: "True",
+          False: "False"
+        },
+        answer: 'False',
+        type: 'tf'
+      },
+      {
+        id: 'q8',
+        question: 'Trademarks like "Coca-Cola" and "Sprite" are renewable and protectable indefinitely.',
+        options: {
+          True: "True",
+          False: "False"
+        },
+        answer: 'True',
+        type: 'tf'
+      },
+      {
+        id: 'q9',
+        question: "Patents protect Coca-Cola's secret formula for Coke.",
+        options: {
+          True: "True",
+          False: "False"
+        },
+        answer: 'False',
+        type: 'tf'
+      },
+      {
+        id: 'q10',
+        question: "Goodwill is amortized over a fixed period like other intangible assets.",
+        options: {
+          True: "True",
+          False: "False"
+        },
+        answer: 'False',
+        type: 'tf'
+      }
+    ];
+
+    function getRandomQuestions(arr, num) {
+      const shuffled = arr.slice().sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, num);
+    }
+
+    const selectedQuestions = getRandomQuestions(allQuestions, 7);
+    const quizForm = document.getElementById('quizForm');
+
+    selectedQuestions.forEach((q, index) => {
+      const qNum = index + 1;
+      const div = document.createElement('div');
+      div.classList.add('question');
+      div.id = q.id;
+
+      let html = `<p>${qNum}. ${q.question}</p><div class="options">`;
+
+      if (q.type === 'mcq') {
+        for (const [key, val] of Object.entries(q.options)) {
+          html += `<label><input type="radio" name="${q.id}" value="${key}"> ${key}) ${val}</label>`;
+        }
+      } else if (q.type === 'tf') {
+        html += `<label><input type="radio" name="${q.id}" value="True"> True</label>`;
+        html += `<label><input type="radio" name="${q.id}" value="False"> False</label>`;
+      }
+
+      html += `</div><div class="feedback" id="f${q.id}"></div>`;
+      div.innerHTML = html;
+      quizForm.appendChild(div);
+    });
+
+    function submitQuiz() {
+      let score = 0;
+      let allAnswered = true;
+
+      selectedQuestions.forEach((q) => {
+        const userAnswer = document.querySelector(`input[name="${q.id}"]:checked`);
+        const feedback = document.getElementById('f' + q.id);
+        if (!userAnswer) {
+          feedback.textContent = 'Please select an answer.';
+          feedback.className = 'feedback incorrect';
+          allAnswered = false;
+          return;
+        }
+        if (userAnswer.value === q.answer) {
+          feedback.textContent = 'Correct!';
+          feedback.className = 'feedback correct';
+          score++;
+        } else {
+          feedback.textContent = `Incorrect. Correct answer: ${q.answer}`;
+          feedback.className = 'feedback incorrect';
+        }
+      });
+
+      if (!allAnswered) {
+        document.getElementById('score').textContent = "Please answer all questions before submitting.";
+        return;
+      }
+
+      document.getElementById('score').textContent = `You scored ${score} out of ${selectedQuestions.length}.`;
+      document.getElementById('submitBtn').disabled = true;
+    }
+  </script>
+</body>
+</html>
